@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const playerSchema = require('./Player').schema;
+const playerSchema = require('./playerModel').schema;
 
 const matchSchema = new Schema(
 {

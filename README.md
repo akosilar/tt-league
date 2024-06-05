@@ -17,3 +17,7 @@ npm install
 ```
 npm run dev
 ```
+
+# Express
+
+navigate to backend folder and follow same steps as the react app
