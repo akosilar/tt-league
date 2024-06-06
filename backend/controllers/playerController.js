@@ -48,20 +48,41 @@ const deletePlayer = async(req, res) => {
     const {id} = req.params;
 
     if(!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: `no such workout: ${id}`})
+        return res.status(404).json({error: `no such player: ${id}`})
     }
 
     const player = await Player.findOneAndDelete({_id: id});
 
     if(!player){
-        return res.status(404).json({error: `no such workout: ${id}`});
+        return res.status(404).json({error: `no such player: ${id}`});
     }
     else{
         res.status(200).json(player);
     }
 }
 
-const updatePlayer = async(req, res) => {};
+/**
+ * updates a single player
+ * @param {*} req 
+ * @param {*} res 
+ */
+const updatePlayer = async(req, res) => {
+    const {id} = req.params;
+    const updates = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({error: `no such player: ${id}`})
+    }
+    
+    const player = await Player.findByIdAndUpdate(id, updates, {new: true});
+    if(!player){
+        return res.status(404).json({error: `no such player: ${id}`});
+    }
+
+    res.status(200).json(player);
+
+};
+
 module.exports = {
     getPlayers,
     getPlayer,
