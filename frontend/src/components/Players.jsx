@@ -1,54 +1,33 @@
 import PlayerRow from "./PlayerRow"
+import { useState, useEffect } from "react"
 export default function Players() {
 
-  let players =
-    [
-      {
-        "name": {
-          "first": "Chelsea",
-          "last": "Stanton"
-        },
-        "email": "Travis.Powlowski@gmail.com",
-        "rating": 1098,
-        "uuid": "8679e63e-fcc8-4b21-946a-89b0a7b327b9"
-      },
-      {
-        "name": {
-          "first": "Muriel",
-          "last": "Jast"
-        },
-        "email": "Lenora_Kulas94@example.com",
-        "rating": 2399,
-        "uuid": "1055346a-f953-44c7-8216-c7f31b4915e4"
-      },
-      {
-        "name": {
-          "first": "Emmy",
-          "last": "Altenwerth"
-        },
-        "email": "Lupe_Schaefer@example.com",
-        "rating": 1439,
-        "uuid": "5d0ec68b-6707-4ff3-83a8-d92700827e4d"
-      },
-      {
-        "name": {
-          "first": "Blaze",
-          "last": "Hahn"
-        },
-        "email": "Alfredo.Walter@gmail.com",
-        "rating": 1506,
-        "uuid": "86eadd98-0959-4558-ab02-5ea548091a87"
-      },
-      {
-        "name": {
-          "first": "Kenna",
-          "last": "Fadel"
-        },
-        "email": "Gina_Donnelly@example.com",
-        "rating": 1365,
-        "uuid": "5ed3f611-85f1-484c-865c-c2a703dd7ac7"
+  const [players, setPlayers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const response = await fetch('/api/players')
+        if (!response.ok) {
+          throw new Error(`http error! status: ${response.status}`)
+        }
+        const json = await response.json()
+        setPlayers(json)
+      } catch (error) {
+        setError(error.message)
+      } finally {
+        setLoading(false);
       }
-    ]
+
+    }
+
+    fetchPlayers()
+  }, [])
+
+  if (loading) return <div> Loading...</div>
+  if (error) return <div> Error: {error}</div>
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
@@ -187,11 +166,11 @@ export default function Players() {
         <tbody>
           {players.map(player =>
             <PlayerRow
-              firstName={player.name.first}
-              lastName={player.name.last}
+              firstName={player.firstName}
+              lastName={player.lastName}
               email={player.email}
               rating={player.rating}
-              key={player.uuid}
+              key={player._id}
             />
           )}
         </tbody>
