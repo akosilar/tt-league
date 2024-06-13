@@ -31,17 +31,21 @@ export default function Players() {
     fetchPlayers()
   }, [])
 
+  const addPlayerToList = (newPlayer) => {
+    setPlayers((prevPlayers) => [...prevPlayers, newPlayer]);
+  };
+
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {showModal && createPortal(
-        <AddPlayer onClose={() => setShowModal(false)} />,
+        <AddPlayer onClose={() => setShowModal(false)} onAddPlayer={addPlayerToList} />,
         document.body
       )}
 
       <div className="flex justify-end">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 mt-2" onClick={() => setShowModal(true)} data-modal-show="editUserModal">Add Player</button>
+        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 me-2 mt-2" onClick={() => setShowModal(true)} data-modal-show="editUserModal">Add Player</button>
       </div>
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
         <Dropdown />
