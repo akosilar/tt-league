@@ -1,8 +1,12 @@
 import PlayerRow from "./PlayerRow"
 import Dropdown from "./Dropdown"
+import AddPlayer from "./AddPlayer";
 import { useState, useEffect } from "react"
+import { createPortal } from 'react-dom';
+
 export default function Players() {
 
+  const [showModal, setShowModal] = useState(false);
   const [players, setPlayers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -31,6 +35,14 @@ export default function Players() {
   if (error) return <div> Error: {error}</div>
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      {showModal && createPortal(
+        <AddPlayer onClose={() => setShowModal(false)} />,
+        document.body
+      )}
+
+      <div className="flex justify-end">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 mt-2" onClick={() => setShowModal(true)} data-modal-show="editUserModal">Add Player</button>
+      </div>
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900">
         <Dropdown />
         <label htmlFor="table-search" className="sr-only">
