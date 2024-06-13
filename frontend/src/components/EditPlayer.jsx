@@ -1,4 +1,4 @@
-export default function AddPlayer({ onClose }) {
+export default function EditPlayer({ onClose }) {
 	return (
 		<>
 			{/* Edit user modal */}
@@ -14,7 +14,7 @@ export default function AddPlayer({ onClose }) {
 						{/* Modal header */}
 						<div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-								Add player
+								Edit user
 							</h3>
 							<button
 								onClick={onClose}
@@ -107,7 +107,6 @@ export default function AddPlayer({ onClose }) {
 										required=""
 									/>
 								</div>
-								{/*
 								<div className="col-span-6 sm:col-span-3">
 									<label
 										htmlFor="department"
@@ -124,24 +123,22 @@ export default function AddPlayer({ onClose }) {
 										required=""
 									/>
 								</div>
-								*/}
 								<div className="col-span-6 sm:col-span-3">
 									<label
-										htmlFor="rating"
+										htmlFor="company"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
-										Rating
+										Company
 									</label>
 									<input
 										type="number"
-										name="rating"
-										id="rating"
+										name="company"
+										id="company"
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-										placeholder={1300}
+										placeholder={123456}
 										required=""
 									/>
 								</div>
-								{/*
 								<div className="col-span-6 sm:col-span-3">
 									<label
 										htmlFor="current-password"
@@ -174,7 +171,6 @@ export default function AddPlayer({ onClose }) {
 										required=""
 									/>
 								</div>
-								*/}
 							</div>
 						</div>
 						{/* Modal footer */}

@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import AddPlayer from "./AddPlayer"
+import EditPlayer from './EditPlayer';
 import { createPortal } from 'react-dom';
+import { useState } from 'react';
 
 
 
@@ -9,7 +9,7 @@ export default function PlayerRow({ firstName, lastName, email, rating }) {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       {showModal && createPortal(
-        <AddPlayer onClose={() => setShowModal(false)} />,
+        <EditPlayer onClose={() => setShowModal(false)} />,
         document.body
       )}
 
