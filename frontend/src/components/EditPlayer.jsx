@@ -1,4 +1,45 @@
-export default function EditPlayer({ onClose, player }) {
+import { useState, useEffect } from "react"
+export default function EditPlayer({ onClose, player, onUpdatePlayer }) {
+	const [firstName, setFirstName] = useState(player.firstName || '')
+	const [lastName, setLastName] = useState(player.lastName || '')
+	const [rating, setRating] = useState(player.rating || '')
+	const [email, setEmail] = useState(player.email || '')
+	const [emptyFields, setEmptyFields] = useState([])
+	const [error, setError] = useState('')
+
+
+	const handleSave = async (e) => {
+		e.preventDefault();
+
+		const editedPlayer = { firstName, lastName }
+
+
+		const response = await fetch(`/api/players/${player._id}`, {
+			method: 'PATCH',
+			body: JSON.stringify(editedPlayer),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		const json = await response.json()
+
+		if (!response.ok) {
+			setError(json.error)
+			setEmptyFields(json.error || [])
+		}
+		if (response.ok) {
+			setFirstName('')
+			setLastName('')
+			setRating('')
+			setEmail('')
+			setEmptyFields('')
+			setError(null)
+			console.log('player updated', json)
+			onUpdatePlayer({ ...player, firstName, lastName, rating, email });
+			onClose();
+
+		}
+	};
 	return (
 		<>
 			{/* Edit user modal */}
@@ -10,7 +51,7 @@ export default function EditPlayer({ onClose, player }) {
 			>
 				<div className="relative w-full max-w-2xl max-h-full">
 					{/* Modal content */}
-					<form className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+					<form className="relative bg-white rounded-lg shadow dark:bg-gray-700" onSubmit={handleSave}>
 						{/* Modal header */}
 						<div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
 							<h3 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -52,12 +93,13 @@ export default function EditPlayer({ onClose, player }) {
 									</label>
 									<input
 										type="text"
+										onChange={(e) => setFirstName(e.target.value)}
+										value={firstName}
 										name="first-name"
 										id="first-name"
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Bonnie"
 										required=""
-										value={player.firstName}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -69,12 +111,13 @@ export default function EditPlayer({ onClose, player }) {
 									</label>
 									<input
 										type="text"
+										onChange={(e) => setLastName(e.target.value)}
+										value={lastName}
 										name="last-name"
 										id="last-name"
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Green"
 										required=""
-										value={player.lastName}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -86,12 +129,13 @@ export default function EditPlayer({ onClose, player }) {
 									</label>
 									<input
 										type="email"
+										onChange={(e) => setEmail(e.target.value)}
+										value={email}
 										name="email"
 										id="email"
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="example@company.com"
 										required=""
-										value={player.email}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -119,12 +163,13 @@ export default function EditPlayer({ onClose, player }) {
 									</label>
 									<input
 										type="number"
+										onChange={(e) => setRating(e.target.value)}
+										value={rating}
 										name="rating"
 										id="rating"
 										className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
 										placeholder={1300}
 										required=""
-										value={player.rating}
 									/>
 								</div>
 								{/*
@@ -166,7 +211,6 @@ export default function EditPlayer({ onClose, player }) {
 						{/* Modal footer */}
 						<div className="flex items-center p-6 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
 							<button
-								onClick={onClose}
 								type="submit"
 								className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							>
