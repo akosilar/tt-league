@@ -1,15 +1,18 @@
 import PlayerRow from "./PlayerRow"
 import Dropdown from "./Dropdown"
 import AddPlayer from "./AddPlayer";
+import EditPlayer from './EditPlayer';
 import { useState, useEffect } from "react"
 import { createPortal } from 'react-dom';
 
 export default function Players() {
 
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [players, setPlayers] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [playerToEdit, setPlayerToEdit] = useState(null);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -35,12 +38,34 @@ export default function Players() {
     setPlayers((prevPlayers) => [...prevPlayers, newPlayer]);
   };
 
+  const updatePlayerInList = (updatedPlayer) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.map((player) =>
+        player._id === updatedPlayer._id ? updatedPlayer : player
+      )
+    );
+  };
+
+  const handleEditPlayer = (player) => {
+    setPlayerToEdit(player);
+    setShowEditModal(true);
+
+  };
+
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       {showModal && createPortal(
         <AddPlayer onClose={() => setShowModal(false)} onAddPlayer={addPlayerToList} />,
+        document.body
+      )}
+      {showEditModal && createPortal(
+        <EditPlayer
+          player={playerToEdit}
+          onClose={() => setShowEditModal(false)}
+          onUpdatePlayer={updatePlayerInList}
+        />,
         document.body
       )}
 
@@ -115,11 +140,9 @@ export default function Players() {
         <tbody>
           {players.map(player =>
             <PlayerRow
-              firstName={player.firstName}
-              lastName={player.lastName}
-              email={player.email}
-              rating={player.rating}
+              player={player}
               key={player._id}
+              onEdit={() => handleEditPlayer(player)}
             />
           )}
         </tbody>
