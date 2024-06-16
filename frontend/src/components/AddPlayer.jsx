@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function AddPlayer({ onClose, onAddPlayer }) {
 	const [firstName, setFirstName] = useState('')
@@ -7,6 +7,20 @@ export default function AddPlayer({ onClose, onAddPlayer }) {
 	const [email, setEmail] = useState('')
 	const [emptyFields, setEmptyFields] = useState([])
 	const [error, setError] = useState('')
+
+	useEffect(() => {
+		const handleEscape = (event) => {
+			if (event.key === 'Escape') {
+				onClose();
+			}
+		};
+
+		document.addEventListener('keydown', handleEscape);
+
+		return () => {
+			document.removeEventListener('keydown', handleEscape);
+		};
+	}, [onClose]);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
