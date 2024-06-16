@@ -46,11 +46,20 @@ export default function Players() {
     );
   };
 
+  const deletePlayerFromList = (playerId) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.filter((player) => player._id !== playerId)
+    );
+  };
+
+
   const handleEditPlayer = (player) => {
     setPlayerToEdit(player);
     setShowEditModal(true);
 
   };
+
+
 
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
@@ -65,6 +74,7 @@ export default function Players() {
           player={playerToEdit}
           onClose={() => setShowEditModal(false)}
           onUpdatePlayer={updatePlayerInList}
+          onDeletePlayer={deletePlayerFromList}
         />,
         document.body
       )}
