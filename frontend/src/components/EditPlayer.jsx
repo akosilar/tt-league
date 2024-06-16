@@ -1,4 +1,4 @@
-export default function EditPlayer({ onClose }) {
+export default function EditPlayer({ onClose, player }) {
 	return (
 		<>
 			{/* Edit user modal */}
@@ -57,6 +57,7 @@ export default function EditPlayer({ onClose }) {
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Bonnie"
 										required=""
+										value={player.firstName}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -73,6 +74,7 @@ export default function EditPlayer({ onClose }) {
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="Green"
 										required=""
+										value={player.lastName}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -89,6 +91,7 @@ export default function EditPlayer({ onClose }) {
 										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="example@company.com"
 										required=""
+										value={player.email}
 									/>
 								</div>
 								<div className="col-span-6 sm:col-span-3">
@@ -109,36 +112,22 @@ export default function EditPlayer({ onClose }) {
 								</div>
 								<div className="col-span-6 sm:col-span-3">
 									<label
-										htmlFor="department"
+										htmlFor="rating"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
-										Department
-									</label>
-									<input
-										type="text"
-										name="department"
-										id="department"
-										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-										placeholder="Development"
-										required=""
-									/>
-								</div>
-								<div className="col-span-6 sm:col-span-3">
-									<label
-										htmlFor="company"
-										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-									>
-										Company
+										Rating
 									</label>
 									<input
 										type="number"
-										name="company"
-										id="company"
-										className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-										placeholder={123456}
+										name="rating"
+										id="rating"
+										className={`shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+										placeholder={1300}
 										required=""
+										value={player.rating}
 									/>
 								</div>
+								{/*
 								<div className="col-span-6 sm:col-span-3">
 									<label
 										htmlFor="current-password"
@@ -171,6 +160,7 @@ export default function EditPlayer({ onClose }) {
 										required=""
 									/>
 								</div>
+								*/}
 							</div>
 						</div>
 						{/* Modal footer */}

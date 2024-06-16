@@ -9,7 +9,7 @@ export default function PlayerRow({ firstName, lastName, email, rating }) {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       {showModal && createPortal(
-        <EditPlayer onClose={() => setShowModal(false)} />,
+        <EditPlayer player={{ firstName, lastName, email, rating }} onClose={() => setShowModal(false)} />,
         document.body
       )}
 
