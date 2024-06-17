@@ -13,6 +13,7 @@ export default function Players() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [playerToEdit, setPlayerToEdit] = useState(null);
+  const [checkedInPlayers, setCheckedInPlayers] = useState([]);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -59,7 +60,26 @@ export default function Players() {
 
   };
 
-
+  const handleCheckInPlayer = async (playerId) => {
+    try {
+      const response = await fetch(`/api/players/${playerId}/checkin`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to check in player');
+      }
+      const updatedStatus = await response.json();
+      setPlayers((prevPlayers) =>
+        prevPlayers.map((player) =>
+          player._id === updatedStatus.playerId
+            ? { ...player, checkedIn: updatedStatus.checkedIn }
+            : player
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
@@ -152,7 +172,9 @@ export default function Players() {
             <PlayerRow
               player={player}
               key={player._id}
+              checkedIn={player.checkedIn}
               onEdit={() => handleEditPlayer(player)}
+              onCheckIn={() => handleCheckInPlayer(player._id)}
             />
           )}
         </tbody>

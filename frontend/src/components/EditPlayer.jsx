@@ -25,7 +25,7 @@ export default function EditPlayer({ onClose, player, onUpdatePlayer, onDeletePl
 	const handleSave = async (e) => {
 		e.preventDefault();
 
-		const editedPlayer = { firstName, lastName }
+		const editedPlayer = { firstName, lastName, rating, email }
 
 
 		const response = await fetch(`/api/players/${player._id}`, {

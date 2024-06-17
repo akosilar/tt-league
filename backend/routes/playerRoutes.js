@@ -4,7 +4,8 @@ const {
     getPlayer,
     createPlayer,
     deletePlayer,
-    updatePlayer
+    updatePlayer,
+    checkinPlayer
 } = require('../controllers/playerController');
 
 const router = express.Router();
@@ -23,5 +24,9 @@ router.delete('/:id', deletePlayer);
 
 //update a player
 router.patch('/:id', updatePlayer);
+
+
+//check in a player
+router.post('/:id/checkin', checkinPlayer);
 
 module.exports = router;
