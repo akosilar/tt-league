@@ -1,11 +1,15 @@
 const express = require('express');
 const {
     checkinPlayer,
-    getCheckedInPlayersCount
+    getCheckedInPlayersCount,
+    getCheckedInPlayersDetails
 
 } = require('../controllers/matchController');
 
 const router = express.Router();
+
+// get checked in players
+router.get('/', getCheckedInPlayersDetails);
 
 
 //check in a player
