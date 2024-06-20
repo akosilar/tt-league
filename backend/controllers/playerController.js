@@ -1,5 +1,9 @@
 const Player = require('../models/playerModel');
 const mongoose = require('mongoose');
+const {
+    isPlayerCheckedIn
+} = require('../controllers/checkedInPlayers');
+
 
 let checkedInPlayers = []
 
@@ -8,7 +12,7 @@ const getPlayers = async (req, res) => {
     const players = await Player.find({}).sort({ createdAt: -1 });
     const playersWithCheckInStatus = players.map(player => ({
         ...player._doc, // spread the player document
-        checkedIn: checkedInPlayers.includes(player._id.toString())
+        checkedIn: isPlayerCheckedIn(player._id.toString())
     }));
     res.status(200).json(playersWithCheckInStatus);
 };
@@ -114,11 +118,18 @@ const checkinPlayer = (req, res) => {
     res.status(200).json({ playerId: id, checkedIn: checkedInPlayers.includes(id) });
 };
 
+// Get the count of checked-in players
+const getCheckedInPlayersCount = (req, res) => {
+    res.status(200).json({ count: checkedInPlayers.length });
+};
+
+
 module.exports = {
     getPlayers,
     getPlayer,
     createPlayer,
     deletePlayer,
     updatePlayer,
-    checkinPlayer
+    checkinPlayer,
+    getCheckedInPlayersCount
 };

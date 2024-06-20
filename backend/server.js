@@ -1,6 +1,7 @@
 require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const playerRoutes = require('./routes/playerRoutes');
+const matchRoutes = require('./routes/matchRoutes');
 const mongoose = require('mongoose');
 
 //use local db if env is local, and if it exists. Otherwise use the mongo cloud URI
@@ -16,6 +17,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/api/players', playerRoutes);
+app.use('/api/matches', matchRoutes);
 
 mongoose.connect(db)
     .then(() => {

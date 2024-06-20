@@ -5,7 +5,7 @@ import EditPlayer from './EditPlayer';
 import { useState, useEffect } from "react"
 import { createPortal } from 'react-dom';
 
-export default function Players() {
+export default function Players({ setCheckedInCount }) {
 
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -13,7 +13,6 @@ export default function Players() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [playerToEdit, setPlayerToEdit] = useState(null);
-  const [checkedInPlayers, setCheckedInPlayers] = useState([]);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -62,7 +61,7 @@ export default function Players() {
 
   const handleCheckInPlayer = async (playerId) => {
     try {
-      const response = await fetch(`/api/players/${playerId}/checkin`, {
+      const response = await fetch(`/api/matches/${playerId}/checkin`, {
         method: 'POST',
       });
       if (!response.ok) {
@@ -76,6 +75,13 @@ export default function Players() {
             : player
         )
       );
+      // Fetch the updated checked-in count
+      const countResponse = await fetch('/api/matches/checkin/count');
+      if (!countResponse.ok) {
+        throw new Error(`HTTP error! status: ${countResponse.status}`);
+      }
+      const countData = await countResponse.json();
+      setCheckedInCount(countData.count);
     } catch (error) {
       console.error(error);
     }
