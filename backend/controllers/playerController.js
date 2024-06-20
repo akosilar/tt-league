@@ -5,7 +5,6 @@ const {
 } = require('../controllers/checkedInPlayers');
 
 
-let checkedInPlayers = []
 
 //get all players
 const getPlayers = async (req, res) => {
@@ -130,6 +129,4 @@ module.exports = {
     createPlayer,
     deletePlayer,
     updatePlayer,
-    checkinPlayer,
-    getCheckedInPlayersCount
 };
