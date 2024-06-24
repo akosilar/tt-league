@@ -12,7 +12,7 @@ export const PlayersProvider = ({ children }) => {
     const handleCheckboxChangeHook = (playerId, playerFirstName, playerLastName, playerRating, isChecked) => {
         setCheckedPlayers(prevState => {
             if (isChecked) {
-                return [...prevState, playerId, playerFirstName, playerLastName, playerRating];
+                return [...prevState, [playerId, playerFirstName, playerLastName, playerRating]];
             } else {
                 return prevState.filter(id => id !== playerId);
             }
