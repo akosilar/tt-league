@@ -5,7 +5,7 @@ import {useLocation} from 'react-router-dom';
 
 export default function ConfirmGroups() {
     const location = useLocation();
-    const {checkedPlayers} = location.state || {checkedPlayers: []};
+    const {checkedPlayers} = location.state || {checkedPlayers: [[]]};
 
     return (<div> 
         <Navbar />
