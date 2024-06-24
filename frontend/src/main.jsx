@@ -5,11 +5,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 //pages
 import Home from './pages/Home';
-import AllPlayers from './pages/AllPlayers';
+import ManagePlayers from './pages/ManagePlayers';
 import Player from './pages/Player';
 import CreateGroups from './pages/CreateGroups';
+import ConfirmGroups from './pages/ConfirmGroups';
 
 //import App from './App.jsx'
+
+import { PlayersProvider } from './contexts/PlayersContext.jsx';
 
 //styles
 import './index.css'
@@ -21,22 +24,28 @@ const router = createBrowserRouter([
     element: <Home/>
   },
   {
-    path: '/allPlayers',
-    element: <AllPlayers/>
+    path: '/ManagePlayers',
+    element: <ManagePlayers/>
   },
   {
     path: '/Player:id',
     element: <Player/>
   },
   {
-    path: '/createGroups',
+    path: '/CreateGroups',
     element: <CreateGroups />
+  },
+  {
+    path: '/ConfirmGroups',
+    element: <ConfirmGroups />
   }
 ]);
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router}/>
-  </React.StrictMode>,
+  <PlayersProvider>
+    <React.StrictMode>
+      <RouterProvider router={router}/>
+    </React.StrictMode>,
+  </PlayersProvider>
 )
