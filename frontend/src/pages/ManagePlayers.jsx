@@ -4,8 +4,6 @@ import Players from '../components/Players.jsx'
 //styles
 import '../App.css'
 
-//hooks
-import { useEffect, useState } from "react";
 
 
 
@@ -28,6 +26,8 @@ export default function ManagePlayers() {
 
     //     fetchCheckedInCount();
     // }, []);
+
+
 
     return (
         <div>
