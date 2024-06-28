@@ -1,3 +1,4 @@
+//context to keep track of which players are selected to be used to make groups.
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const PlayersContext = createContext();

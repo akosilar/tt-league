@@ -7,6 +7,7 @@ function confirmMatches(){
    console.log("clearing local storage");
    localStorage.removeItem('checkedPlayers');
 }
+
 export default function ConfirmGroups() {
     const location = useLocation();
     const {checkedPlayers} = location.state || {checkedPlayers: []};
@@ -25,7 +26,6 @@ export default function ConfirmGroups() {
         </ul>
 
         {/*todo here this will post to database*/}
-        {/*todo here clear local storage checkedPlayers*/}
         <button className="border border-black px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-md" onClick = {confirmMatches}>Confirm matches</button>
         </div>);
 }

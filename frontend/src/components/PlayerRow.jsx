@@ -24,7 +24,8 @@ export default function PlayerRow({ player, onEdit}) {
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
       <td className="w-4 p-4">
         <div className="flex items-center">
-          <input type="checkbox" id={`checkbox-${player._id}`} onChange={handleCheckboxChange} checked={inLocalStorage(player._id)}
+          <input type="checkbox" id={`checkbox-${player._id}`} onChange={handleCheckboxChange} 
+            checked={inLocalStorage(player._id)} /*whether it should be drawn as checked based off if its in local storage*/
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
           <label htmlFor="checkbox-table-1" className="sr-only">checkbox</label>

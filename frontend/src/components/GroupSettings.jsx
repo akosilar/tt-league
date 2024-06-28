@@ -1,3 +1,5 @@
+//bar at the top of creating groups page so you can set preferred group size, date etc 
+
 export default function GroupSettings( { selectedGS, onGSChange }) {
     const handleGSChange = (e) => {
         onGSChange(e.target.value);

@@ -8,7 +8,7 @@ import { usePlayers } from '../contexts/PlayersContext';
 
 
 export default function Players() {
-  //************************ Getting players from DB & local storage ****************************************** //
+  //************************ Getting players from DB ****************************************** //
   const [players, setPlayers] = useState([]);
 
   //************************ Sorting players list ****************************************** //
