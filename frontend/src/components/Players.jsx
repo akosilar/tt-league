@@ -9,11 +9,43 @@ export default function Players({ setCheckedInCount }) {
 
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  
   const [players, setPlayers] = useState([])
   const [loading, setLoading] = useState(true)
+
   const [error, setError] = useState(null)
   const [playerToEdit, setPlayerToEdit] = useState(null);
 
+  //************************ SORTING ****************************************** //
+  const [sortField, setSortField] = useState(null); //which criteria is used to sort 
+  const [sortOrder, setSortOrder] = useState('asc'); //ascending or descending
+
+  /** sorts the players displayed based on what sorting button was clicked
+   * 
+   * @param {String} field by rating, email or firstName
+   */
+  const handleSort = (field) => {
+
+    //if was ascending and clicked the button we already were sorting, then go to descending
+    const newSortOrder = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+
+    const sortedPlayers = [...players].sort((a, b) => {
+      const aValue = typeof a[field] === 'string' ? a[field].toLowerCase() : a[field];
+      const bValue = typeof b[field] === 'string' ? b[field].toLowerCase() : b[field];
+
+      if (aValue < bValue) return newSortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return newSortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    setPlayers(sortedPlayers);
+    setSortField(field);
+    setSortOrder(newSortOrder);
+
+  };
+
+
+  // ********************* fetch players in beginning ************************* //
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
@@ -34,6 +66,7 @@ export default function Players({ setCheckedInCount }) {
     fetchPlayers()
   }, [])
 
+  // ******************** updating players  ********************* //
   const addPlayerToList = (newPlayer) => {
     setPlayers((prevPlayers) => [...prevPlayers, newPlayer]);
   };
@@ -59,33 +92,33 @@ export default function Players({ setCheckedInCount }) {
 
   };
 
-  const handleCheckInPlayer = async (playerId) => {
-    try {
-      const response = await fetch(`/api/matches/${playerId}/checkin`, {
-        method: 'POST',
-      });
-      if (!response.ok) {
-        throw new Error('Failed to check in player');
-      }
-      const updatedStatus = await response.json();
-      setPlayers((prevPlayers) =>
-        prevPlayers.map((player) =>
-          player._id === updatedStatus.playerId
-            ? { ...player, checkedIn: updatedStatus.checkedIn }
-            : player
-        )
-      );
-      // Fetch the updated checked-in count
-      const countResponse = await fetch('/api/matches/checkin/count');
-      if (!countResponse.ok) {
-        throw new Error(`HTTP error! status: ${countResponse.status}`);
-      }
-      const countData = await countResponse.json();
-      setCheckedInCount(countData.count);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleCheckInPlayer = async (playerId) => {
+  //   try {
+  //     const response = await fetch(`/api/matches/${playerId}/checkin`, {
+  //       method: 'POST',
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error('Failed to check in player');
+  //     }
+  //     const updatedStatus = await response.json();
+  //     setPlayers((prevPlayers) =>
+  //       prevPlayers.map((player) =>
+  //         player._id === updatedStatus.playerId
+  //           ? { ...player, checkedIn: updatedStatus.checkedIn }
+  //           : player
+  //       )
+  //     );
+  //     // Fetch the updated checked-in count
+  //     const countResponse = await fetch('/api/matches/checkin/count');
+  //     if (!countResponse.ok) {
+  //       throw new Error(`HTTP error! status: ${countResponse.status}`);
+  //     }
+  //     const countData = await countResponse.json();
+  //     setCheckedInCount(countData.count);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
@@ -150,12 +183,17 @@ export default function Players({ setCheckedInCount }) {
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
-              Name
+            <div className="flex items-center">
+                Name
+                <a href="#" onClick = {() => handleSort("lastName")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
+                </svg></a>
+              </div>
             </th>
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center">
                 Email
-                <a href="#"><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <a href="#" onClick = {() => handleSort("email")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                 </svg></a>
               </div>
@@ -163,7 +201,7 @@ export default function Players({ setCheckedInCount }) {
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center">
                 Rating
-                <a href="#"><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <a href="#" onClick = {() => handleSort("rating")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                 </svg></a>
               </div>
@@ -173,14 +211,14 @@ export default function Players({ setCheckedInCount }) {
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id = "playersList">
           {players.map(player =>
             <PlayerRow
               player={player}
               key={player._id}
-              checkedIn={player.checkedIn}
+              // checkedIn={player.checkedIn}
               onEdit={() => handleEditPlayer(player)}
-              onCheckIn={() => handleCheckInPlayer(player._id)}
+              // onCheckIn={() => handleCheckInPlayer(player._id)}
             />
           )}
         </tbody>
