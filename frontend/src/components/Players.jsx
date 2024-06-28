@@ -2,23 +2,29 @@ import PlayerRow from "./PlayerRow"
 import Dropdown from "./Dropdown"
 import AddPlayer from "./AddPlayer";
 import EditPlayer from './EditPlayer';
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { createPortal } from 'react-dom';
+import { usePlayers } from '../contexts/PlayersContext';
 
-export default function Players({ setCheckedInCount }) {
 
-  const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  
-  const [players, setPlayers] = useState([])
-  const [loading, setLoading] = useState(true)
+export default function Players() {
+  //************************ Getting players from DB & local storage ****************************************** //
+  const [players, setPlayers] = useState([]);
 
-  const [error, setError] = useState(null)
-  const [playerToEdit, setPlayerToEdit] = useState(null);
-
-  //************************ SORTING ****************************************** //
+  //************************ Sorting players list ****************************************** //
   const [sortField, setSortField] = useState(null); //which criteria is used to sort 
   const [sortOrder, setSortOrder] = useState('asc'); //ascending or descending
+
+
+//************************ Editing players ****************************************** //
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [playerToEdit, setPlayerToEdit] = useState(null);
+
+  
+  //************************ Web stuff ****************************************** //
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   /** sorts the players displayed based on what sorting button was clicked
    * 

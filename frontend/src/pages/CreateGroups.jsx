@@ -6,8 +6,13 @@ import { usePlayers } from '../contexts/PlayersContext.jsx';
 import { useNavigate } from 'react-router-dom';
 export default function CreateGroups() {
 
+    //pass stuff to confirm groups page
     const navigate = useNavigate();
+
+    //group size dropdown
     const [selectedSize, setSelectedSize] = useState('5');
+
+    //track checked players
     const { checkedPlayers } = usePlayers();
 
     const handleGSChange = (size) => {
