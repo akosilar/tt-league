@@ -2,9 +2,8 @@ import PlayerRow from "./PlayerRow"
 import Dropdown from "./Dropdown"
 import AddPlayer from "./AddPlayer";
 import EditPlayer from './EditPlayer';
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import { createPortal } from 'react-dom';
-import { usePlayers } from '../contexts/PlayersContext';
 
 
 export default function Players() {
@@ -16,12 +15,12 @@ export default function Players() {
   const [sortOrder, setSortOrder] = useState('asc'); //ascending or descending
 
 
-//************************ Editing players ****************************************** //
+  //************************ Editing players ****************************************** //
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState(null);
 
-  
+
   //************************ Web stuff ****************************************** //
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -129,7 +128,7 @@ export default function Players() {
   if (loading) return <div> Loading...</div>
   if (error) return <div> Error: {error}</div>
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg  flex flex-col">
       {showModal && createPortal(
         <AddPlayer onClose={() => setShowModal(false)} onAddPlayer={addPlayerToList} />,
         document.body
@@ -152,7 +151,7 @@ export default function Players() {
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
-        <div className="relative">
+        <div className="relative mr-2">
           <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
               className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -189,9 +188,9 @@ export default function Players() {
               </div>
             </th>
             <th scope="col" className="px-6 py-3">
-            <div className="flex items-center">
+              <div className="flex items-center">
                 Name
-                <a href="#" onClick = {() => handleSort("lastName")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <a href="#" onClick={() => handleSort("lastName")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                 </svg></a>
               </div>
@@ -199,7 +198,7 @@ export default function Players() {
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center">
                 Email
-                <a href="#" onClick = {() => handleSort("email")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <a href="#" onClick={() => handleSort("email")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                 </svg></a>
               </div>
@@ -207,7 +206,7 @@ export default function Players() {
             <th scope="col" className="px-6 py-3">
               <div className="flex items-center">
                 Rating
-                <a href="#" onClick = {() => handleSort("rating")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <a href="#" onClick={() => handleSort("rating")}><svg className="w-3 h-3 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z" />
                 </svg></a>
               </div>
@@ -217,14 +216,14 @@ export default function Players() {
             </th>
           </tr>
         </thead>
-        <tbody id = "playersList">
+        <tbody id="playersList">
           {players.map(player =>
             <PlayerRow
               player={player}
               key={player._id}
               // checkedIn={player.checkedIn}
               onEdit={() => handleEditPlayer(player)}
-              // onCheckIn={() => handleCheckInPlayer(player._id)}
+            // onCheckIn={() => handleCheckInPlayer(player._id)}
             />
           )}
         </tbody>

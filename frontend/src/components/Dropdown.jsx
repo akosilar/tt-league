@@ -8,7 +8,7 @@ export default function Dropdown() {
 	};
 
 	return (
-		<div>
+		<div className="ml-2">
 			<button
 				id="dropdownActionButton"
 				onClick={toggleDropdown}

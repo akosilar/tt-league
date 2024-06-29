@@ -32,7 +32,7 @@ export default function ManagePlayers() {
     return (
         <div>
             <Navbar />
-            <div className="md:container md:mx-auto flex justify-center">
+            <div className="md:container md:mx-auto  shadow-md p-6 h-screen mt-2">
                 <Players />
             </div>
         </div>
