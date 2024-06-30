@@ -1,6 +1,6 @@
 export default function ToggleDarkMode({ onClick }) {
 	return (
-		<div className="bg-white dark:bg-gray-900  w-full justify-center flex flex-row items-center">
+		<div className="bg-white dark:bg-gray-900  w-full justify-end flex flex-row items-center">
 			<div className="flex flex-row justify-between toggle">
 				<label htmlFor="dark-toggle" className="flex items-center cursor-pointer">
 					<div className="relative">
