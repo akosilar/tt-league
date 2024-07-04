@@ -5,9 +5,7 @@ import { useState, useEffect } from "react"
 import { createPortal } from 'react-dom';
 
 
-export default function Players() {
-  //************************ Getting players from DB ****************************************** //
-  const [players, setPlayers] = useState([]);
+export default function Players({ players, setPlayers, loading, setLoading, error, setError }) {
 
   //************************ Sorting players list ****************************************** //
   const [sortField, setSortField] = useState(null); //which criteria is used to sort 
@@ -19,10 +17,6 @@ export default function Players() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [playerToEdit, setPlayerToEdit] = useState(null);
 
-
-  //************************ Web stuff ****************************************** //
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
   /** sorts the players displayed based on what sorting button was clicked
    * 
@@ -49,26 +43,6 @@ export default function Players() {
   };
 
 
-  // ********************* fetch players in beginning ************************* //
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      try {
-        const response = await fetch('/api/players')
-        if (!response.ok) {
-          throw new Error(`http error! status: ${response.status}`)
-        }
-        const json = await response.json()
-        setPlayers(json)
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false);
-      }
-
-    }
-
-    fetchPlayers()
-  }, [])
 
   // ******************** updating players  ********************* //
   const addPlayerToList = (newPlayer) => {
